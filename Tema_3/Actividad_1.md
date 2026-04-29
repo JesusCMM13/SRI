@@ -54,7 +54,7 @@ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin dock
 Verificamos que se ha instalado mirando la versión: 
 
 ```bash
-sudo susyemctl status docker
+sudo systemctl status docker
 ```
 
 <img width="817" height="532" alt="image" src="https://github.com/user-attachments/assets/e2ba1861-0816-4a33-9c45-1c0ca466cbbd" />
