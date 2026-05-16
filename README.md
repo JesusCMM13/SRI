@@ -58,7 +58,7 @@ Actividades del módulo de servicios de red e internet
 | [Act 3](Tema_3/Actividad_3.md)      | Pull, rename y borrado de contenedores       |
 | [Act 4](Tema_3/Actividad_4.md)      | Almacenamiento y redes Docker       |
 | [Act 5](Tema_3/Actividad_5.md)      | Docker-compose       |
-| [Act 5](Tema_3/Actividad_6.md)      | Creación de imágenes Docker       |
+| [Act 6](Tema_3/Actividad_6.md)      | Creación de imágenes Docker       |
 
 
 
