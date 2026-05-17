@@ -83,7 +83,8 @@ Una vez se han creado todas las capas de la imagen, vamos a echar a andar el con
 **NOTA:** Te voy a dejar un enlace con el dockerfile y con el start.sh. Puedes probarlo, pero la ip no es localhost, es la ip del contendor de docker. ENJOY
 
 [Dockerfile](Tema_3/Dockerfile) 
-[Act 5](Tema_3/start.sh) 
+
+[Script de inicio](Tema_3/start.sh) 
 
 
 
