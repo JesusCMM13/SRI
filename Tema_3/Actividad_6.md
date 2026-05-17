@@ -1,6 +1,6 @@
 # Actividad 6 - Creación de imágenes Docker
 
-Lo siento Ignacio, pero no quiero seguir más tutoriales. En su lugar te voy a explicar cómo puedo usar mi proyecto de python (un juego de cartas).  Como la aplicación usa Pygame (ventana gráfica), para ejecutarla en el navegador hay que hacer un pequeño truco: usar Xvfb (pantalla virtual) + x11vnc (servidor VNC) + noVNC (cliente VNC en el navegador). Esto lo vamos a conseguir con un script de bash que se ejecuta dentro del contenedor y lanza los procesos necesarios para tener la interfaz gráfica, en el orden correcto.
+Lo siento Ignacio, pero no quiero seguir más tutoriales. En su lugar te voy a explicar cómo puedo usar mi proyecto de python (un juego de cartas) para crear una imágen de Docker.  Como la aplicación usa Pygame (ventana gráfica), para ejecutarla en el navegador hay que hacer un pequeño truco: usar Xvfb (pantalla virtual) + x11vnc (servidor VNC) + noVNC (cliente VNC en el navegador). Esto lo vamos a conseguir con un script de bash que se ejecuta dentro del contenedor y lanza los procesos necesarios para tener la interfaz gráfica, en el orden correcto.
 
 <img width="697" height="258" alt="image" src="https://github.com/user-attachments/assets/6c81b63f-85fe-4e1c-bcf0-7bd20cebc169" />
 
@@ -48,5 +48,42 @@ EXPOSE 6080
 ENTRYPOINT ["/start.sh"]
 
 ```
+
+Primero, la imagen oficial de python, básica
+
+FROM python:3.11-slim
+
+RUN apt-get update & install ... -> Luego, instala todas las dependencias y paquetes necesarios, git (para clonar el repo), y la pantalla virtual y servidor VNC.
+Todo en un solo `RUN` encadenado con `&&` por una razón importante: cada `RUN` crea una capa nueva en la imagen lo cual genera capas innecesarias y ocuparía más espacio. El rm -rf /var/lib/apt/lists/* al final elimina la caché de apt, que ya no hace falta una vez instalado todo.
+
+
+WORKDIR y RUN git clone -> WORKDIR /app establece el directorio de trabajo dentro del contenedor. Todos los comandos siguientes se ejecutan desde ahí, y si la carpeta no existe, Docker la crea.
+git clone ... . descarga el código del repositorio directamente en /app (el punto final indica "en el directorio actual", sin crear una subcarpeta).
+
+RUN pip install -> Instala las dependencias Python del proyecto, en este caso solo pygame==2.6.1. El flag --no-cache-dir evita que pip guarde la caché de paquetes descargados, reduciendo el tamaño de la imagen.
+
+COPY y RUN chmod -> COPY toma el archivo start.sh de la carpeta y lo copia dentro de la imagen en /start.sh. Esto ocurre en tiempo de build, por lo que el script queda permanentemente integrado en la imagen.
+chmod +x le da permisos de ejecución. Sin esto, el archivo existe en el sistema de ficheros pero Linux se negaría a ejecutarlo como programa.
+
+EXPOSE 6080 -> usaremos el puerto 6080 (el de noVNC). Es declarativo, no abre el puerto por sí solo. El que realmente lo publica es el flag -p 6080:6080 que pasaremos al hacer docker run. Sin el -p, este EXPOSE no tendría efecto práctico.
+
+ENTRYPOINT ["/start.sh"] -> Define el comando que Docker ejecuta cuando arranca el contenedor. Como se explicó antes, la forma de array hace que el script sea el proceso PID 1 del contenedor.
+
+Ya solo queda, en la raíz donde está el archivo dockerfile y el start.sh, hacer `docker build -t juego_cartas .`
+
+<img width="1897" height="383" alt="image" src="https://github.com/user-attachments/assets/c899988e-eb36-4cb9-a610-dc06ff72e172" />
+
+Una vez se han creado todas las capas de la imagen, vamos a echar a andar el contenedor con `docker run --rm -p 6080:6080 juego_cartas`
+
+<img width="674" height="66" alt="image" src="https://github.com/user-attachments/assets/3af178a0-5bbe-4504-bed7-5dfe7b78e40f" />
+
+<img width="1251" height="733" alt="image" src="https://github.com/user-attachments/assets/11d189f5-ee7e-477a-a375-e3e710cb42c1" />
+
+<img width="1268" height="960" alt="image" src="https://github.com/user-attachments/assets/f9adb527-cdff-49c0-8997-c9092816ac1f" />
+
+**NOTA:** Te voy a dejar un enlace con el dockerfile y con el start.sh. Puedes probarlo, pero la ip no es localhost, es la ip del contendor de docker. ENJOY
+
+
+
 
 
