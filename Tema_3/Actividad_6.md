@@ -1,6 +1,8 @@
 # Actividad 6 - Creación de imágenes Docker
 
-Lo siento Ignacio, pero no quiero seguir más tutoriales. En su lugar te voy a explicar cómo puedo usar mi proyecto de python (un juego de cartas) para crear una imágen de Docker.  Como la aplicación usa Pygame (ventana gráfica), para ejecutarla en el navegador hay que hacer un pequeño truco: usar Xvfb (pantalla virtual) + x11vnc (servidor VNC) + noVNC (cliente VNC en el navegador). Esto lo vamos a conseguir con un script de bash que se ejecuta dentro del contenedor y lanza los procesos necesarios para tener la interfaz gráfica, en el orden correcto.
+**Lo siento Ignacio, pero no quiero seguir más tutoriales.** 
+
+En su lugar te voy a explicar cómo puedo usar mi proyecto de python (un juego de cartas) para crear una imágen de Docker.  Como la aplicación usa Pygame (ventana gráfica), para ejecutarla en el navegador hay que hacer un pequeño truco: usar Xvfb (pantalla virtual) + x11vnc (servidor VNC) + noVNC (cliente VNC en el navegador). Esto lo vamos a conseguir con un script de bash que se ejecuta dentro del contenedor y lanza los procesos necesarios para tener la interfaz gráfica, en el orden correcto.
 
 <img width="697" height="258" alt="image" src="https://github.com/user-attachments/assets/6c81b63f-85fe-4e1c-bcf0-7bd20cebc169" />
 
