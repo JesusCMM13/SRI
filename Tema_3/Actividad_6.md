@@ -10,9 +10,7 @@ Voy a enseñarte el Dockerfile y te explico lo que hace:
 
 bash
 ```
-# ─────────────────────────────────────────────────────────────────
-# Pokémon Matching Cards — accesible desde el navegador vía noVNC
-# Puerto expuesto: 6080  →  http://localhost:6080
+# Puerto expuesto: 6080  →  http://localhost:6080/vnc.html
 # ─────────────────────────────────────────────────────────────────
 FROM python:3.11-slim
 
@@ -82,7 +80,7 @@ Una vez se han creado todas las capas de la imagen, vamos a echar a andar el con
 
 <img width="1268" height="960" alt="image" src="https://github.com/user-attachments/assets/f9adb527-cdff-49c0-8997-c9092816ac1f" />
 
-**NOTA:** Te voy a dejar un enlace con el dockerfile y con el start.sh. Puedes probarlo, pero la ip no es localhost, es la ip del contendor de docker. ENJOY
+**NOTA:** Te voy a dejar un enlace con el dockerfile y con el start.sh. Puedes probarlo, he hecho algún cambio en el dockerfile para que no pete por la falta de audiop en el navegador. ENJOY
 
 [Dockerfile](Tema_3/Dockerfile) 
 
