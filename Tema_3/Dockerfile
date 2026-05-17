@@ -1,6 +1,4 @@
-# ─────────────────────────────────────────────────────────────────
-# Pokémon Matching Cards — accesible desde el navegador vía noVNC
-# Puerto expuesto: 6080  →  http://localhost:6080
+# Puerto expuesto: 6080  →  http://localhost:6080/vnc.html
 # ─────────────────────────────────────────────────────────────────
 FROM python:3.11-slim
 
