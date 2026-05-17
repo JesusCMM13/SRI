@@ -49,23 +49,22 @@ ENTRYPOINT ["/start.sh"]
 
 ```
 
-Primero, la imagen oficial de python, básica
 
-`FROM python:3.11-slim`
+`FROM python:3.11-slim` -> Primero, la imagen oficial de python, básica
 
 `RUN apt-get update & install ... `-> Luego, instala todas las dependencias y paquetes necesarios, git (para clonar el repo), y la pantalla virtual y servidor VNC.
-Todo en un solo `RUN` encadenado con `&&` por una razón importante: cada `RUN` crea una capa nueva en la imagen lo cual genera capas innecesarias y ocuparía más espacio. El rm -rf /var/lib/apt/lists/* al final elimina la caché de apt, que ya no hace falta una vez instalado todo.
+Todo en un solo `RUN` encadenado con `&&` por una razón importante: cada `RUN` crea una capa nueva en la imagen lo cual genera capas innecesarias y ocuparía más espacio. El `rm -rf /var/lib/apt/lists/*` al final elimina la caché de apt, que ya no hace falta una vez instalado todo.
 
 
-`WORKDIR y RUN git clone` -> WORKDIR /app establece el directorio de trabajo dentro del contenedor. Todos los comandos siguientes se ejecutan desde ahí, y si la carpeta no existe, Docker la crea.
-git clone ... . descarga el código del repositorio directamente en /app (el punto final indica "en el directorio actual", sin crear una subcarpeta).
+`WORKDIR y RUN git clone` -> `WORKDIR /app` establece el directorio de trabajo dentro del contenedor. Todos los comandos siguientes se ejecutan desde ahí, y si la carpeta no existe, Docker la crea.
+`git clone ... `. descarga el código del repositorio directamente en /app (el punto final indica "en el directorio actual", sin crear una subcarpeta).
 
-`RUN pip install` -> Instala las dependencias Python del proyecto, en este caso solo pygame==2.6.1. El flag --no-cache-dir evita que pip guarde la caché de paquetes descargados, reduciendo el tamaño de la imagen.
+`RUN pip install` -> Instala las dependencias Python del proyecto, en este caso solo pygame==2.6.1. El flag `--no-cache-dir` evita que pip guarde la caché de paquetes descargados, reduciendo el tamaño de la imagen.
 
-`COPY y RUN chmod `-> COPY toma el archivo start.sh de la carpeta y lo copia dentro de la imagen en /start.sh. Esto ocurre en tiempo de build, por lo que el script queda permanentemente integrado en la imagen.
+`COPY y RUN chmod `-> `COPY` toma el archivo start.sh de la carpeta y lo copia dentro de la imagen en /start.sh. Esto ocurre en tiempo de build, por lo que el script queda permanentemente integrado en la imagen.
 chmod +x le da permisos de ejecución. Sin esto, el archivo existe en el sistema de ficheros pero Linux se negaría a ejecutarlo como programa.
 
-`EXPOSE 6080` -> usaremos el puerto 6080 (el de noVNC). Es declarativo, no abre el puerto por sí solo. El que realmente lo publica es el flag -p 6080:6080 que pasaremos al hacer docker run. Sin el -p, este EXPOSE no tendría efecto práctico.
+`EXPOSE 6080` -> usaremos el puerto 6080 (el de noVNC). Es declarativo, no abre el puerto por sí solo. El que realmente lo publica es el flag `-p 6080:6080` que pasaremos al hacer docker run. Sin el -p, este EXPOSE no tendría efecto práctico.
 
 `ENTRYPOINT ["/start.sh"]` -> Define el comando que Docker ejecuta cuando arranca el contenedor. Como se explicó antes, la forma de array hace que el script sea el proceso PID 1 del contenedor.
 
@@ -83,7 +82,8 @@ Una vez se han creado todas las capas de la imagen, vamos a echar a andar el con
 
 **NOTA:** Te voy a dejar un enlace con el dockerfile y con el start.sh. Puedes probarlo, pero la ip no es localhost, es la ip del contendor de docker. ENJOY
 
-
+[Dockerfile](Tema_3/Dockerfile) 
+[Act 5](Tema_3/start.sh) 
 
 
 
